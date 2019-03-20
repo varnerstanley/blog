@@ -7,12 +7,12 @@ const homeStartingContent = "It's working!";
 
 const app = express();
 
-const { Pool } = require("pg");
-
-const connectionString = process.env.DATABASE_URL || "postgres://odin:sonofodin@localhost:5432/blog";
-
-const pool = new Pool({connectionString: connectionString});
-app.set("port", (process.env.PORT || 5000));
+// const { Pool } = require("pg");
+//
+// const connectionString = process.env.DATABASE_URL || "postgres://odin:sonofodin@localhost:5432/blog";
+//
+// const pool = new Pool({connectionString: connectionString});
+// app.set("port", (process.env.PORT || 5000));
 
 app.set('view engine', 'ejs');
 
@@ -89,11 +89,11 @@ app.get("/posts/:postName", function(req, res){
 
 });
 
-// let port = process.env.PORT;
-// if (port == null || port == "") {
-//   port = 3000;
-// }
-//
-// app.listen(port, function() {
-//   console.log("Server has started successfully");
-// });
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 3000;
+}
+
+app.listen(port, function() {
+  console.log("Server has started successfully");
+});
