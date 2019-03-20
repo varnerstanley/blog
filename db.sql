@@ -18,7 +18,9 @@ CREATE TABLE users
 );
 
 INSERT INTO posts (post_title, post_date, post_text)
-  VALUES ('Second Title', '2019-03-17', 'This is the second post in this blog');
+  VALUES ('Second Title', '2019-03-19', 'This is the second post in this blog');
+  INSERT INTO posts (post_title, post_date, post_text)
+    VALUES ('Third Title', '2019-03-19', 'This is the Third post in this blog');
 
 CREATE USER odin WITH PASSWORD 'sonofodin';
 GRANT SELECT, INSERT, UPDATE, DELETE ON posts TO odin;
