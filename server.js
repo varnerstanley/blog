@@ -12,7 +12,7 @@ const { Pool } = require("pg");
 const connectionString = process.env.DATABASE_URL || "postgres://odin:sonofodin@localhost:5432/blog";
 
 const pool = new Pool({connectionString: connectionString});
-app.set("port", (process.env.PORT || 5000));
+app.set("port", (process.env.PORT || 3000));
 
 app.set('view engine', 'ejs');
 
@@ -23,16 +23,19 @@ let posts = [];
 
 
 
-app.get("/", getPosts);
+app.get("/gPosts", getPosts);
 
 function getPosts(req, res) {
     var id = req.query.id;
+    const post = req.query.post_title;
+    const text = req.query.post_text;
 
     getPostFromDb(id, function(error, result) {
 
       console.log("Back from getPostFromDb db function with result: ", result);
       res.json(result);
     });
+
 };
 
 function getPostFromDb(id, callback){
@@ -73,7 +76,7 @@ app.post("/compose", function(req, res){
 
   posts.push(post);
 
-  res.redirect("/");
+  res.redirect("/home");
 
 });
 
