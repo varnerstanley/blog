@@ -21,6 +21,8 @@ app.use(express.static("public"));
 
 let posts = [];
 
+
+
 app.get("/", getPosts);
 
 function getPosts(req, res) {
@@ -50,6 +52,8 @@ function getPostFromDb(id, callback){
     callback(null, result.rows);
   });
 }
+
+
 
 app.get("/home", function(req, res){
   res.render("home", {
@@ -89,11 +93,11 @@ app.get("/posts/:postName", function(req, res){
 
 });
 
-// let port = process.env.PORT;
-// if (port == null || port == "") {
-//   port = 3000;
-// }
-//
-// app.listen(port, function() {
-//   console.log("Server has started successfully");
-// });
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 3000;
+}
+
+app.listen(port, function() {
+  console.log("Server has started successfully");
+});
