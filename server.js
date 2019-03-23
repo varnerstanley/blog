@@ -56,18 +56,16 @@ function getPostFromDb(callback){
 
 app.get("/home", function(req, res){
   getAllPosts();
-  // res.render("home", {
-  //   startingContent: homeStartingContent,
-  //   posts: posts
-  //   });
-  res.render("home");
+  res.render("home", {
+    posts: posts
+    });
 });
 
 function getAllPosts() {
 
     getPostFromDb(function(error, result) {
 
-      console.log("Back from getPostFromDb db function with result: ", result);
+      // console.log("Back from getPostFromDb db function with result: ", result);
       posts = result;
     });
 
