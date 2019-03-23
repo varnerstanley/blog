@@ -2,12 +2,9 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 
-
 const homeStartingContent = "It's working!";
 
 const app = express();
-
-
 
 const { Pool } = require("pg");
 
@@ -16,18 +13,12 @@ const connectionString = process.env.DATABASE_URL || "postgres://odin:sonofodin@
 const pool = new Pool({connectionString: connectionString});
 app.set("port", (process.env.PORT || 3000));
 
-
-
-
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-
-
 let posts = [];
-
 
 
 app.get("/gPosts", getPosts);
@@ -55,28 +46,21 @@ function getPostFromDb(callback){
       console.log(err);
       callback(err, null);
     }
-    // console.log("Found db result: " + JSON.stringify(result.rows));
 
     callback(null, result.rows);
   });
 
-  // Set up a JSON object of the values we want to pass along to the EJS result page
-	// const params = {post: post, text: text};
-
-  // var rates = {LettersS: .55, LettersM: .5, LargeEF: 1, FCP: 3.66};
-
-  // res.render("home", params);
-  // console.log("I made it this far");
 }
 
 
 
 app.get("/home", function(req, res){
   getAllPosts();
-  res.render("home", {
-    startingContent: homeStartingContent,
-    posts: posts
-    });
+  // res.render("home", {
+  //   startingContent: homeStartingContent,
+  //   posts: posts
+  //   });
+  res.render("home");
 });
 
 function getAllPosts() {
@@ -88,7 +72,6 @@ function getAllPosts() {
     });
 
 };
-
 
 
 app.get("/compose", function(req, res){
@@ -107,6 +90,7 @@ app.post("/compose", function(req, res){
     res.redirect("/home");
   });
 });
+
 
 
 app.get("/posts/:postName", function(req, res){
