@@ -93,7 +93,7 @@ app.post("/compose", function(req, res){
 app.get("/post/:post_id", function(req, res){
   getPost(req.params.post_id);
   res.render("post", {
-    currentPost: currentPost
+    post: currentPost
     });
 });
 
