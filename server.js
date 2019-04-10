@@ -91,8 +91,9 @@ app.post("/compose", function(req, res){
 
 
 
-app.get("/posts/:postName", function(req, res){
+app.get("/posts/:postId", function(req, res){
   const requestedTitle = _.lowerCase(req.params.postName);
+  const requestedPostId = req.params.postId;
 
   posts.forEach(function(post){
     const storedTitle = _.lowerCase(post.title);
@@ -106,6 +107,7 @@ app.get("/posts/:postName", function(req, res){
   });
 
 });
+
 
 let port = process.env.PORT;
 if (port == null || port == "") {
