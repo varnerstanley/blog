@@ -91,15 +91,15 @@ app.post("/compose", function(req, res){
 });
 
 app.get("/post/:post_id", function(req, res){
-  getPost(req.params.post_id);
+  getPost(res, req.params.post_id);
   // res.render("post", {
   //   post: currentPost
   //   });
 });
 
-function getPost(post_id) {
+function getPost(res, post_id) {
 
-    getPostFromDb(post_id, function(error, result) {
+    getPostFromDb(res, post_id, function(error, result) {
 
       // console.log("Back from getAllPostsFromDb db function with result: ", result);
       currentPost = result;
@@ -107,7 +107,7 @@ function getPost(post_id) {
 
 };
 
-function getPostFromDb(post_id, callback){
+function getPostFromDb(res, post_id, callback){
   var sql = "SELECT post_id, post_title, post_text FROM posts WHERE post_id = $1";
 
   pool.query(sql, [post_id], function(err, result) {
