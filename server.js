@@ -38,7 +38,7 @@ function getPosts(req, res) {
 
 };
 
-function getAllPostsFromDb(callback){
+function getAllPostsFromDb(res, callback){
   var sql = "SELECT post_id, post_title, post_text FROM posts";
 
   pool.query(sql, function(err, result) {
@@ -48,23 +48,22 @@ function getAllPostsFromDb(callback){
       callback(err, null);
     }
 
-    callback(null, result.rows);
+    // callback(null, result.rows);
+    res.render("home", {
+      posts: result.rows
+    });
   });
-
 }
 
 
 
 app.get("/home", function(req, res){
-  getAllPosts();
-  res.render("home", {
-    posts: posts
-    });
+  getAllPosts(res);
 });
 
-function getAllPosts() {
+function getAllPosts(res) {
 
-    getAllPostsFromDb(function(error, result) {
+    getAllPostsFromDb(res, function(error, result) {
 
       // console.log("Back from getAllPostsFromDb db function with result: ", result);
       posts = result;
@@ -125,6 +124,21 @@ function getPostFromDb(res, post_id, callback){
 
 }
 
+app.delete('/post/:post_id', function (req, res) {
+  // res.send('Got a DELETE request at /user')
+  var sql = "SELECT post_id, post_title, post_text FROM posts WHERE post_id = $1";
+
+  pool.query(sql, [req.params.post_id], function(err, result) {
+    if (err){
+      console.log("error with db occurred");
+      console.log(err);
+      callback(err, null);
+    }
+    console.log('\n\n\n\nrows:', result.rows, '\n\n\n\n');
+    // callback(null, result.rows[0]);
+    res.redirect("/home");
+  });
+})
 
 
 let port = process.env.PORT;
