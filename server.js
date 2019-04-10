@@ -92,9 +92,9 @@ app.post("/compose", function(req, res){
 
 app.get("/post/:post_id", function(req, res){
   getPost(req.params.post_id);
-  res.render("post", {
-    post: currentPost
-    });
+  // res.render("post", {
+  //   post: currentPost
+  //   });
 });
 
 function getPost(post_id) {
@@ -117,7 +117,10 @@ function getPostFromDb(post_id, callback){
       callback(err, null);
     }
     console.log('\n\n\n\nrows:', result.rows, '\n\n\n\n');
-    callback(null, result.rows[0]);
+    // callback(null, result.rows[0]);
+    res.render("post", {
+      post: result.rows[0];
+      });
   });
 
 }
