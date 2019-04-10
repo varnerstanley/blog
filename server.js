@@ -116,7 +116,7 @@ function getPostFromDb(post_id, callback){
       console.log(err);
       callback(err, null);
     }
-
+    console.log('\n\n\n\nrows:', result.rows, '\n\n\n\n');
     callback(null, result.rows[0]);
   });
 
