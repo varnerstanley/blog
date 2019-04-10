@@ -119,8 +119,8 @@ function getPostFromDb(res, post_id, callback){
     console.log('\n\n\n\nrows:', result.rows, '\n\n\n\n');
     // callback(null, result.rows[0]);
     res.render("post", {
-      post: result.rows[0];
-      });
+      post: result.rows[0]
+    });
   });
 
 }
