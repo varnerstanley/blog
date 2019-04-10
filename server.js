@@ -19,6 +19,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
 let posts = [];
+let currentPost = {};
 
 
 app.get("/gPosts", getPosts);
@@ -29,15 +30,15 @@ function getPosts(req, res) {
     const post = req.params.post_title;
     const text = req.params.post_text;
 
-    getPostFromDb(id, function(error, result) {
+    getAllPostsFromDb(id, function(error, result) {
 
-      console.log("Back from getPostFromDb db function with result: ", result);
+      console.log("Back from getAllPostsFromDb db function with result: ", result);
       res.json(result);
     });
 
 };
 
-function getPostFromDb(callback){
+function getAllPostsFromDb(callback){
   var sql = "SELECT post_id, post_title, post_text FROM posts";
 
   pool.query(sql, function(err, result) {
@@ -63,9 +64,9 @@ app.get("/home", function(req, res){
 
 function getAllPosts() {
 
-    getPostFromDb(function(error, result) {
+    getAllPostsFromDb(function(error, result) {
 
-      // console.log("Back from getPostFromDb db function with result: ", result);
+      // console.log("Back from getAllPostsFromDb db function with result: ", result);
       posts = result;
     });
 
@@ -89,23 +90,38 @@ app.post("/compose", function(req, res){
   });
 });
 
+app.get("/post/:post_id", function(req, res){
+  getPost(req.params.post_id);
+  res.render("post", {
+    currentPost: currentPost
+    });
+});
 
+function getPost(post_id) {
 
-app.get("/posts/:postName", function(req, res){
-  const requestedTitle = _.lowerCase(req.params.postName);
+    getPostFromDb(post_id, function(error, result) {
 
-  posts.forEach(function(post){
-    const storedTitle = _.lowerCase(post.title);
+      // console.log("Back from getAllPostsFromDb db function with result: ", result);
+      currentPost = result;
+    });
 
-    if (storedTitle === requestedTitle) {
-      res.render("post", {
-        title: post.title,
-        content: post.content
-      });
+};
+
+function getPostFromDb(post_id, callback){
+  var sql = "SELECT post_id, post_title, post_text FROM posts WHERE post_id = $1";
+
+  pool.query(sql, [post_id], function(err, result) {
+    if (err){
+      console.log("error with db occurred");
+      console.log(err);
+      callback(err, null);
     }
+
+    callback(null, result.rows[0]);
   });
 
-});
+}
+
 
 
 let port = process.env.PORT;
