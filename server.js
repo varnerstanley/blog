@@ -126,7 +126,7 @@ function getPostFromDb(res, post_id, callback){
 
 app.delete('/post/:post_id', function (req, res) {
   // res.send('Got a DELETE request at /user')
-  var sql = "SELECT post_id, post_title, post_text FROM posts WHERE post_id = $1";
+  var sql = "DELETE FROM posts WHERE post_id = $1";
 
   pool.query(sql, [req.params.post_id], function(err, result) {
     if (err){
